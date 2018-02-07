@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.flicker.user.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller for Material Requests. Uses WebFlux framework.
+ * Controller for user.
  *
  * @author Andriy Klymenko
  */
@@ -20,13 +21,13 @@ import java.util.List;
 public class UserController {
 
     /**
-     * Endpoint to get all users using flux service.
+     * Endpoint to get all users using.
      *
      * @return list of user
      */
     @GetMapping
     public List<User> fluxFindAll() {
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -37,6 +38,6 @@ public class UserController {
      */
     @GetMapping(path = "/{id}")
     public User get(@PathVariable("id") String id) {
-        return null;
+        return new User();
     }
 }
