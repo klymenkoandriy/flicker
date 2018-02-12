@@ -1,4 +1,4 @@
-package software.sigma.flicker.auth;
+package software.sigma.flicker.klymenko.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

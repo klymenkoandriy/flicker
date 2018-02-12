@@ -1,4 +1,4 @@
-package software.sigma.flicker.auth;
+package software.sigma.flicker.klymenko.auth;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

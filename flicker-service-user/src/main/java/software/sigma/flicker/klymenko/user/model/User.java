@@ -1,4 +1,4 @@
-package software.sigma.flicker.user.model;
+package software.sigma.flicker.klymenko.user.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
