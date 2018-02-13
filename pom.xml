@@ -9,11 +9,19 @@
     <packaging>pom</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <modules>
-        <module>flicker-service-user</module>
-        <module>auth-server</module>
-        <module>eureka-server</module>
+        <module>client</module>
+        <module>authorization</module>
+        <module>eureka</module>
+        <module>message-service</module>
+        <module>zuul</module>
     </modules>
     <name>flicker</name>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.10.RELEASE</version>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,66 +30,11 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <spring-boot-maven-plugin.version>1.4.2.RELEASE</spring-boot-maven-plugin.version>
         <spring-boot-dependencies.version>1.5.10.RELEASE</spring-boot-dependencies.version>
-        <spring-cloud-dependencies.version>Brixton.SR7</spring-cloud-dependencies.version>
+        <!--<spring-cloud-dependencies.version>Brixton.SR7</spring-cloud-dependencies.version>-->
+        <spring-cloud.version>Dalston.SR2</spring-cloud.version>
         <mockito.version>2.13.0</mockito.version>
         <lombok.version>1.16.20</lombok.version>
     </properties>
-
-    <dependencies>
-        <!-- Test-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot-dependencies.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-
-        <!-- java 9 -->
-        <!--<dependency>-->
-            <!--<groupId>javax.xml.bind</groupId>-->
-            <!--<artifactId>jaxb-api</artifactId>-->
-            <!--<version>2.3.0</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jaxb</groupId>-->
-            <!--<artifactId>jaxb-runtime</artifactId>-->
-            <!--<version>2.3.0</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>javax.activation</groupId>-->
-            <!--<artifactId>activation</artifactId>-->
-            <!--<version>1.1.1</version>-->
-        <!--</dependency>-->
-
-        <!--Additional-->
-        <!--<dependency>-->
-            <!--<groupId>com.googlecode.json-simple</groupId>-->
-            <!--<artifactId>json-simple</artifactId>-->
-            <!--<version>1.1.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-autoconfigure</artifactId>-->
-            <!--<version>1.5.9.RELEASE</version>-->
-        <!--</dependency>-->
-
-    </dependencies>
 
     <build>
         <pluginManagement>
