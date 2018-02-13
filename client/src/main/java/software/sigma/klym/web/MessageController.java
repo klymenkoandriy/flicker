@@ -1,4 +1,4 @@
-package software.sigma.klym;
+package software.sigma.klym.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

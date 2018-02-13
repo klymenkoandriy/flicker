@@ -13,6 +13,7 @@
         <module>authorization</module>
         <module>eureka</module>
         <module>message-service</module>
+        <module>user-service</module>
         <module>zuul</module>
     </modules>
     <name>flicker</name>
