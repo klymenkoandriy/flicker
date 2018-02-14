@@ -15,7 +15,6 @@ public class MessageRepositoryImpl implements MessageRepository {
 
     final List<Message> messages = Collections.synchronizedList(new LinkedList<>());
 
-
     @Override
     public List<Message> findAll() {
         return messages;

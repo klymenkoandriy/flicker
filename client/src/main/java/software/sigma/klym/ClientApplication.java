@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
  * Message service.
@@ -20,7 +21,7 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 @EnableOAuth2Sso
 @EnableEurekaClient
 @RibbonClient(name = "message-service")
-public class ClientApplication {
+public class ClientApplication extends ResourceServerConfigurerAdapter {
 
     /**
      * Main method to start application.

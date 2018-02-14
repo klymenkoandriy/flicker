@@ -16,9 +16,13 @@
   
   <h2>Messages</h2>
   <div th:each="message : ${messages}">
-    <h3><span th:text="${message.username}"></span> @ <span th:text="${message.createdAt}"></span></h3>
+    <h3>
+      <span th:text="${message.username}"></span>
+      <!--<span th:text="${message.firstName}"></span>-->
+      <!--<span th:text="${message.lastName}"></span>-->
+      @ <span th:text="${message.createdAt}"></span></h3>
     <span th:text="${message.text}"></span>
   </div>
-        
+
 </body>
 </html>

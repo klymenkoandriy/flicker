@@ -38,10 +38,11 @@ public class AuthorizationApplication {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
+                    .csrf().disable()
                     .formLogin().loginPage("/login").permitAll()
                     .and()
                     .requestMatchers()
-                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access")
+                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/api/messages")
                     .and()
                     .authorizeRequests()
                     .anyRequest().authenticated();
