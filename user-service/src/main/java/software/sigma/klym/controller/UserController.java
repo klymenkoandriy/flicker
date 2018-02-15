@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/get-by-id")
-    public User getByid(@RequestParam(value = "id") String id) {
+    public User getById(@RequestParam(value = "id") String id) {
         for(User user : users) {
             if (user.getId().equals(id)) {
                 return user;
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public User postMessage(Principal principal, @RequestBody User user) {
+    public User saveUser(Principal principal, @RequestBody User user) {
         users.add(0, user);
         return user;
     }

@@ -10,19 +10,19 @@ zuul:
   add-proxy-headers: true
   ignored-services: "*"
   routes:
-    api:
-      path: /api/**
-      service-id: resource
-      sensitiveHeaders:
-      strip-prefix: false
     uaa:
       path: /uaa/**
       service-id: uaa
       sensitiveHeaders:
       strip-prefix: false
     client:
-      path: /client/**
-      service-id: client
+      path: /message-service/**
+      service-id: message-service
+      sensitiveHeaders:
+      strip-prefix: false
+    user-service:
+      path: /user-service/**
+      service-id: user-service
       sensitiveHeaders:
       strip-prefix: false
 

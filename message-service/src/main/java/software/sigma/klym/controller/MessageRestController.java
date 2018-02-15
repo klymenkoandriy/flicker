@@ -1,12 +1,12 @@
 package software.sigma.klym.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import software.sigma.klym.domain.MessageRepository;
 import software.sigma.klym.model.Message;
 import software.sigma.klym.model.MessageDTO;
@@ -24,8 +24,11 @@ import java.util.List;
 @RequestMapping(value = "api/messages")
 public class MessageRestController {
 
+//    @Autowired
+//    OAuth2RestTemplate restTemplate;
+
     @Autowired
-    OAuth2RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
     @Autowired
     private UserService userService;

@@ -2,8 +2,8 @@ package software.sigma.klym.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import software.sigma.klym.model.User;
 
@@ -17,7 +17,10 @@ public class UserServiceImpl implements UserService {
     String userUrl;
 
     @Autowired
-    OAuth2RestTemplate restTemplate;
+    RestTemplate restTemplate;
+
+//    @Autowired
+//    OAuth2RestTemplate restTemplate;
 
     @Override
     public User findByUsername(String username) {

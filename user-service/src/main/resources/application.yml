@@ -1,8 +1,38 @@
-spring.application.name: user-service
-server.port: 18082
+#spring.application.name: user-service
+#server.port: 18082
+#
+#security.oauth2.resource.token-info-uri: http://localhost:9999/uaa/oauth/check_token
+#security.oauth2.client.client-id: demo
+#security.oauth2.client.client-secret: demo
+#
+#spring.jackson.date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 
-security.oauth2.resource.token-info-uri: http://localhost:9999/uaa/oauth/check_token
-security.oauth2.client.client-id: demo
-security.oauth2.client.client-secret: demo
 
-spring.jackson.date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+server:
+  port: 18082
+  context-path: /user-service
+
+spring:
+  application:
+    name: user-service
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+
+auth-server: http://localhost:9999/uaa
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      client-id: demo
+      client-secret: demo
+      access-token-uri: ${auth-server}/oauth/token
+      user-authorization-uri: ${auth-server}/oauth/authorize
+      scope: read, write
+    resource:
+      token-info-uri: ${auth-server}/oauth/check_token
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+

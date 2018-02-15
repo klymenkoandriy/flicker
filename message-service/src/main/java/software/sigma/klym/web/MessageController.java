@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import software.sigma.klym.domain.MessageRepository;
+import software.sigma.klym.model.Message;
 
 import java.security.Principal;
 
@@ -24,11 +25,10 @@ public class MessageController {
 
     @RequestMapping(path = "messages", method = RequestMethod.POST)
     String postMessages(Principal principal, @RequestParam String text) {
-//        Message message = new Message();
-//        message.setText(text);
-//        restTemplate.exchange(RequestEntity
-//                .post(UriComponentsBuilder.fromHttpUrl(messagesUrl).pathSegment("messages").build().toUri())
-//                .body(message), Message.class);
+        Message message = new Message();
+        message.setText(text);
+        message.setUsername(principal.getName());
+        messageRepository.save(message);
         return "redirect:/";
     }
 
