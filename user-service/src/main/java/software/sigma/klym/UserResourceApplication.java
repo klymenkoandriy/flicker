@@ -3,7 +3,6 @@ package software.sigma.klym;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,7 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @SpringBootApplication
 @EnableResourceServer
 @EnableEurekaClient
-@RibbonClient(name = "user-service")
 public class UserResourceApplication extends ResourceServerConfigurerAdapter {
 
     @Override

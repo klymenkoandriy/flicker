@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import software.sigma.klym.domain.MessageRepository;
 import software.sigma.klym.model.Message;
 import software.sigma.klym.model.MessageDTO;
 import software.sigma.klym.model.User;
-import software.sigma.klym.service.UserService;
+import software.sigma.klym.service.UserFeignService;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -27,11 +26,11 @@ public class MessageRestController {
 //    @Autowired
 //    OAuth2RestTemplate restTemplate;
 
-    @Autowired
-    RestTemplate restTemplate;
+//    @Autowired
+//    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    UserFeignService userFeignService;
 
     @Autowired
     private MessageRepository messageRepository;
@@ -39,7 +38,8 @@ public class MessageRestController {
     @GetMapping(value = "/get-by-username")
     public List<MessageDTO> getByUserName(Principal principal, @RequestParam(value = "username") String name) {
         List<Message> messages = messageRepository.findByUsername(name);
-        User user = userService.findByUsername(principal.getName());
+//        User user = userService.findByUsername(principal.getName());
+        User user = userFeignService.getByUsername(principal.getName());
         List<MessageDTO> result = new ArrayList<>();
         for (Message message : messages) {
             result.add(new MessageDTO(message.getId(), message.getText(), name, user.getFirstName(), user.getLastName()));
@@ -53,7 +53,7 @@ public class MessageRestController {
     }
 
     @PostMapping()
-    Message saveMessage(Principal principal, @RequestParam String text) {
+    public Message saveMessage(Principal principal, @RequestParam String text) {
         Message message = new Message();
         message.setText(text);
         message.setUsername(principal.getName());

@@ -38,6 +38,7 @@ public class AuthorizationApplication {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
+                    .csrf().disable()
                     .formLogin().loginPage("/login").permitAll()
                     .and()
                     .requestMatchers()
@@ -46,28 +47,6 @@ public class AuthorizationApplication {
                     .authorizeRequests()
                     .anyRequest().authenticated();
 
-
-//            http.csrf().disable();
-
-//            http
-//                    .formLogin().loginPage("/login").permitAll()
-//                    .and()
-//                    .authorizeRequests()
-//                    .antMatchers("/", "/login").permitAll()
-//                    .antMatchers("/login", "/oauth/authorize").permitAll()
-//                    .antMatchers("/api/messages").permitAll()
-//                    .and()
-//                    .csrf().ignoringAntMatchers("/api/messages");
-
-//            http
-//                    .csrf().disable()
-//                    .formLogin().loginPage("/login").permitAll()
-//                    .and()
-//                    .authorizeRequests()
-//                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/api/messages")
-//                    .authenticated()
-//                    .and()
-//                    .httpBasic();
         }
     }
 }

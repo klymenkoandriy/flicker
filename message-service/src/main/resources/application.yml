@@ -25,8 +25,19 @@ security:
 proxy:
   auth:
     load-balanced: true
+
 logging:
   level:
     org.springframework.security: DEBUG
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
 
+
+#feign:
+#  hystrix:
+#    enabled: false
