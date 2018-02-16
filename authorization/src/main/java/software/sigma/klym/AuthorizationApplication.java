@@ -42,7 +42,8 @@ public class AuthorizationApplication {
                     .formLogin().loginPage("/login").permitAll()
                     .and()
                     .requestMatchers()
-                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/api/messages", "/api/users")
+//                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/api/messages", "/api/users")
+                    .antMatchers("/oauth/authorize", "/oauth/confirm_access", "/message-service/api/messages", "/user-service/api/users")
                     .and()
                     .authorizeRequests()
                     .anyRequest().authenticated();

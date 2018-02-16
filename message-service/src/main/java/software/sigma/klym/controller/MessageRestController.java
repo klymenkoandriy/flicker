@@ -23,12 +23,6 @@ import java.util.List;
 @RequestMapping(value = "api/messages")
 public class MessageRestController {
 
-//    @Autowired
-//    OAuth2RestTemplate restTemplate;
-
-//    @Autowired
-//    private UserService userService;
-
     @Autowired
     UserFeignService userFeignService;
 
@@ -38,7 +32,6 @@ public class MessageRestController {
     @GetMapping(value = "/get-by-username")
     public List<MessageDTO> getByUserName(Principal principal, @RequestParam(value = "username") String name) {
         List<Message> messages = messageRepository.findByUsername(name);
-//        User user = userService.findByUsername(principal.getName());
         User user = userFeignService.getByUsername(principal.getName());
         List<MessageDTO> result = new ArrayList<>();
         for (Message message : messages) {
