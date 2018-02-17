@@ -31,10 +31,3 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
-#feign:
-#  hystrix:
-#    enabled: false
-
-#proxy:
-#  auth:
-#    load-balanced: true

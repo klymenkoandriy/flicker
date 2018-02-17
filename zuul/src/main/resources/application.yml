@@ -1,6 +1,6 @@
 server:
   port: 9999
-  use-forward-headers: true 
+  use-forward-headers: true
 spring.application.name: zuul
 
 zuul:
@@ -8,7 +8,6 @@ zuul:
     socket-timeout-millis: 60000
   add-host-header: true
   add-proxy-headers: true
-  ignored-services: "*"
   routes:
     uaa:
       path: /uaa/**
@@ -24,9 +23,8 @@ zuul:
       path: /user-service/**
       service-id: user-service
       sensitiveHeaders:
-      strip-prefix: false
+#      strip-prefix: false
 
-#eureka.client.service-url.defaultZone: http://localhost:8761/eureka/
 eureka:
   client:
     serviceUrl:

@@ -12,7 +12,7 @@ import software.sigma.klym.model.User;
 @FeignClient(name = "user-service")
 public interface UserFeignService {
 
-    @RequestMapping(method = RequestMethod.GET, value = "api/users/get-by-username")
+    @RequestMapping(method = RequestMethod.GET, value = "/api/users/get-by-username")
     User getByUsername(@RequestParam(value = "username") String name);
 
 }

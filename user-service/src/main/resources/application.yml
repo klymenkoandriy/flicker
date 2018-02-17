@@ -10,7 +10,7 @@
 
 server:
   port: 18082
-  context-path: /user-service
+#  context-path: /user-service
 
 spring:
   application:
@@ -43,6 +43,3 @@ eureka:
   instance:
     preferIpAddress: true
 
-#proxy:
-#  auth:
-#    load-balanced: true

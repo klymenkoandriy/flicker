@@ -20,7 +20,7 @@ import java.util.List;
  * @author Andriy Klymenko
  */
 @RestController
-@RequestMapping(value = "api/messages")
+@RequestMapping(value = "/api/messages")
 public class MessageRestController {
 
     @Autowired
