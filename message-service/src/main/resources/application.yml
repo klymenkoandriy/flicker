@@ -1,6 +1,5 @@
 server:
   port: 8080
-  context-path: /message-service
 
 spring:
   application:
@@ -31,3 +30,6 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
+feign:
+  oauth2:
+    enabled: true

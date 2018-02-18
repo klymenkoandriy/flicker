@@ -18,7 +18,7 @@ zuul:
       path: /message-service/**
       service-id: message-service
       sensitiveHeaders:
-      strip-prefix: false
+#      strip-prefix: false
     user-service:
       path: /user-service/**
       service-id: user-service
@@ -29,5 +29,4 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
+
