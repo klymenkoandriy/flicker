@@ -10,7 +10,7 @@
       <property name="influenceFormat" value="$2"/>
     </module>
     <module name="SuppressionCommentFilter"/>
-    <!--<module name="FileContentsHolder"/>-->
+    <module name="SuppressWarningsHolder"/>
     <module name="TypecastParenPad">
       <property name="severity" value="warning"/>
     </module>
@@ -307,6 +307,7 @@
       <property name="tokens" value="COMMA,SEMI"/>
     </module>
   </module>
+  <module name="SuppressWarningsFilter"/>
   <module name="FileTabCharacter">
     <property name="severity" value="info"/>
   </module>

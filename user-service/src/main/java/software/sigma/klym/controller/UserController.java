@@ -27,7 +27,6 @@ public class UserController {
                 LocalDate.of(2000, 01, 10)));
     }
 
-    //    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/api/users/get-by-username")
     public User getByUsername(@RequestParam(value = "username") String name) {
         for (User user : users) {
@@ -38,14 +37,12 @@ public class UserController {
         return  null;
     }
 
-    //    @Override
     @RequestMapping(method = RequestMethod.POST, value = "/api/users")
     public User saveUser(@RequestBody User user) {
         users.add(0, user);
         return user;
     }
 
-    //    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/api/users")
     public List<User> getAll() {
         return users;

@@ -1,18 +1,20 @@
 package software.sigma.klym;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * The main class to start the application.
+ */
+@SuppressWarnings({"JavadocMethod", "HideUtilityClassConstructor"})
 @SpringBootApplication
+@EnableFeignClients
 @EnableAuthorizationServer
 @EnableEurekaClient
 @RestController
@@ -23,30 +25,4 @@ public class AuthorizationApplication {
         SpringApplication.run(AuthorizationApplication.class, args);
     }
 
-    @Configuration
-    static class MvcConfig extends WebMvcConfigurerAdapter {
-        @Override
-        public void addViewControllers(ViewControllerRegistry registry) {
-            registry.addViewController("login").setViewName("login");
-            registry.addViewController("/oauth/confirm_access").setViewName("authorize");
-            registry.addViewController("/").setViewName("index");
-        }
-    }
-
-    @Configuration
-    static class LoginConfig extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .csrf().disable()
-                    .formLogin().loginPage("/login").permitAll()
-                    .and()
-                    .requestMatchers()
-                    .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access", "/api/messages", "/api/users")
-                    .and()
-                    .authorizeRequests()
-                    .anyRequest().authenticated();
-
-        }
-    }
 }

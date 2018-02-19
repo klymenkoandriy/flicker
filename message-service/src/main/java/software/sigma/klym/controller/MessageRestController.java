@@ -13,6 +13,7 @@ import software.sigma.klym.model.User;
 import software.sigma.klym.service.UserFeignService;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 public class MessageRestController {
 
     @Autowired
-    UserFeignService userFeignService;
+    private UserFeignService userFeignService;
 
     @Autowired
     private MessageRepository messageRepository;
@@ -35,21 +36,22 @@ public class MessageRestController {
         User user = userFeignService.getByUsername(principal.getName());
         List<MessageDTO> result = new ArrayList<>();
         for (Message message : messages) {
-            result.add(new MessageDTO(message.getId(), message.getText(), name, user.getFirstName(), user.getLastName()));
+            result.add(new MessageDTO(message.getId(), message.getText(), name, user.getFirstName(), user.getLastName(), message.getCreatedAt()));
         }
         return  result;
     }
 
-    @GetMapping()
+    @GetMapping("")
     public List<Message> getAll() {
         return messageRepository.findAll();
     }
 
-    @PostMapping()
+    @PostMapping("")
     public Message saveMessage(Principal principal, @RequestParam String text) {
         Message message = new Message();
         message.setText(text);
         message.setUsername(principal.getName());
+        message.setCreatedAt(LocalDateTime.now());
         return messageRepository.save(message);
     }
 

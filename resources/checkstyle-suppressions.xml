@@ -8,22 +8,7 @@
     <suppress files=".*Test\.java" checks=".*" />
     <suppress files=".*\.jnilib" checks=".*" />
     <suppress files=".*\.dll" checks=".*" />
-    <suppress files="[\\/]generated-sources[\\/]" checks=".*" />
-    <!-- Suppression comment does not work for StrictDuplicateCode check - see https://github.com/checkstyle/checkstyle/issues/26 -->
-    <suppress files="[\\/]de[\\/]dlh[\\/]lht[\\/]cnote[\\/]service[\\/]sap[\\/]([a-z]+[\\/])*model[\\/].*" checks="StrictDuplicateCode"/>
-    <suppress files="[\\/]de[\\/]dlh[\\/]lht[\\/]cnote[\\/]service[\\/]sap[\\/]notification[\\/]mock[\\/].*" checks="StrictDuplicateCode"/>
-    <suppress files="[\\/]de[\\/]dlh[\\/]lht[\\/]cnote[\\/]service[\\/]archive[\\/]model[\\/].*" checks="StrictDuplicateCode"/>
-    
-    <suppress files=".*ArchiveIndexService\.java" checks=".*" />
-    <suppress files=".*ArchiveIndexServiceBean\.java" checks=".*" />
-    <suppress files=".*FullTextIndexDao\.java" checks=".*" />
-    <suppress files=".*FullTextIndexDaoBean\.java" checks=".*" />
-    <suppress files=".*FullTextIndexDaoBeanTestHelper\.java" checks=".*" />
-    <suppress files=".*ExchangeExtendedPropertyDefinition\.java" checks=".*" />
-    <!-- 
-    <suppress files=".*FullTextIndexDaoBean\.java" checks=".*Javadoc.*" />
-    <suppress files=".*FullTextIndexDaoBean\.java" checks=".*Throws.*" />
-     -->
+
     
 
 </suppressions>
