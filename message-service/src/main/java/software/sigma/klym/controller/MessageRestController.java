@@ -30,13 +30,13 @@ public class MessageRestController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping(value = "/get-by-username")
-    public List<MessageDTO> getByUserName(Principal principal, @RequestParam(value = "username") String name) {
-        List<Message> messages = messageRepository.findByUsername(name);
+    @GetMapping(value = "/by-username")
+    public List<MessageDTO> getByUserName(Principal principal, @RequestParam(value = "username") String username) {
+        List<Message> messages = messageRepository.findByUsername(username);
         User user = userFeignService.getByUsername(principal.getName());
         List<MessageDTO> result = new ArrayList<>();
         for (Message message : messages) {
-            result.add(new MessageDTO(message.getId(), message.getText(), name, user.getFirstName(), user.getLastName(), message.getCreatedAt()));
+            result.add(new MessageDTO(message.getId(), message.getText(), username, user.getFirstName(), user.getLastName(), message.getCreatedAt()));
         }
         return  result;
     }

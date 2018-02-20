@@ -15,15 +15,17 @@ zuul:
       sensitiveHeaders:
       strip-prefix: false
     client:
-      path: /message-service/**
+      path: /api/messages/**
       service-id: message-service
       sensitiveHeaders:
-#      strip-prefix: false
+      url: http://localhost:8080/
+      strip-prefix: false
     user-service:
-      path: /user-service/**
+      path: /api/users/**
       service-id: user-service
       sensitiveHeaders:
-#      strip-prefix: false
+      url: http://localhost:18082/
+      strip-prefix: false
 
 eureka:
   client:

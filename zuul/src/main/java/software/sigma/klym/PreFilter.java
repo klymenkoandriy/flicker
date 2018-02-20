@@ -5,7 +5,6 @@ import com.netflix.zuul.context.RequestContext;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
@@ -15,7 +14,7 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
  */
 public class PreFilter extends ZuulFilter {
 
-    private static final String FILTERED_SERVICE = "user-service";
+    private static final String FILTERED_PREFIX = "/api/users";
 
     @Override
     public String filterType() {
@@ -34,20 +33,18 @@ public class PreFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-        final HttpServletResponse response = ctx.getResponse();
+        RequestContext context = RequestContext.getCurrentContext();
+        HttpServletRequest request = context.getRequest();
 
-        String url = request.getRequestURL().toString();
-        if (url.contains(FILTERED_SERVICE) && request.getMethod().equals(RequestMethod.GET.toString())) {
+        if (request.getRequestURL().toString().contains(FILTERED_PREFIX) && request.getMethod().equals(RequestMethod.GET.toString())) {
             try {
-                response.sendError(METHOD_NOT_ALLOWED.value(), METHOD_NOT_ALLOWED.getReasonPhrase());
+                context.getResponse().sendError(METHOD_NOT_ALLOWED.value(), METHOD_NOT_ALLOWED.getReasonPhrase());
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
         return null;
     }
+
 }

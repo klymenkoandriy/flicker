@@ -1,8 +1,9 @@
 package software.sigma.klym.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.klym.model.User;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author Andriy Klymenko
  */
 @RestController
+@RequestMapping(value = "/api/users")
 public class UserController {
 
     final List<User> users = Collections.synchronizedList(new LinkedList<>());
@@ -27,7 +29,7 @@ public class UserController {
                 LocalDate.of(2000, 01, 10)));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/api/users/get-by-username")
+    @GetMapping(value = "/by-username")
     public User getByUsername(@RequestParam(value = "username") String name) {
         for (User user : users) {
             if (user.getUsername().equals(name)) {
@@ -37,13 +39,14 @@ public class UserController {
         return  null;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/api/users")
+    @PostMapping("")
     public User saveUser(@RequestBody User user) {
         users.add(0, user);
         return user;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/api/users")
+//    @RequestMapping(method = RequestMethod.GET, value = "/api/users")
+    @GetMapping("")
     public List<User> getAll() {
         return users;
     }
