@@ -1,6 +1,8 @@
 package software.sigma.klym.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ import java.util.List;
  * @author Andriy Klymenko
  */
 @RestController
-@RequestMapping(value = "/api/messages")
+@RequestMapping(value = "/api/v1/messages")
 public class MessageRestController {
 
     @Autowired
@@ -30,20 +32,29 @@ public class MessageRestController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping(value = "/by-username")
-    public List<MessageDTO> getByUserName(Principal principal, @RequestParam(value = "username") String username) {
-        List<Message> messages = messageRepository.findByUsername(username);
+    @GetMapping(value = "")
+    public ResponseEntity getByUserName(Principal principal,
+            @RequestParam(value = "username",  required = false) String usernameParam,
+            @RequestParam(value = "tag",  required = false) String tagParam,
+            @RequestParam(value = "page", required = false) String pageParam) {
+
+        String username = (usernameParam != null) ? usernameParam : "";
+        String tag = (tagParam != null) ? tagParam : "";
+        int page = StringUtils.isNotBlank(pageParam) ? Integer.parseInt(pageParam) : 0;
+
         User user = userFeignService.getByUsername(principal.getName());
+
+        if (StringUtils.isNotBlank(username) && !user.getUsername().equals(username)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        List<Message> messages = messageRepository.findByUsername(username);
+
         List<MessageDTO> result = new ArrayList<>();
         for (Message message : messages) {
             result.add(new MessageDTO(message.getId(), message.getText(), username, user.getFirstName(), user.getLastName(), message.getCreatedAt()));
         }
-        return  result;
-    }
-
-    @GetMapping("")
-    public List<Message> getAll() {
-        return messageRepository.findAll();
+        return ResponseEntity.ok().body(messages);
     }
 
     @PostMapping("")

@@ -17,7 +17,7 @@ import java.util.List;
  * @author Andriy Klymenko
  */
 @RestController
-@RequestMapping(value = "/api/users")
+@RequestMapping(value = "/api/v1/users")
 public class UserController {
 
     final List<User> users = Collections.synchronizedList(new LinkedList<>());
@@ -45,7 +45,6 @@ public class UserController {
         return user;
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/api/users")
     @GetMapping("")
     public List<User> getAll() {
         return users;
