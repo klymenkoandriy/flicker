@@ -31,9 +31,12 @@
         <spring-boot-maven-plugin.version>1.4.2.RELEASE</spring-boot-maven-plugin.version>
         <spring-boot-dependencies.version>1.5.10.RELEASE</spring-boot-dependencies.version>
         <!--<spring-cloud-dependencies.version>Brixton.SR7</spring-cloud-dependencies.version>-->
+        <swagger-maven-plugin-version>3.1.5</swagger-maven-plugin-version>
+        <swagger-version>1.5.18</swagger-version>
         <spring-cloud.version>Dalston.SR2</spring-cloud.version>
         <mockito.version>2.13.0</mockito.version>
         <lombok.version>1.16.20</lombok.version>
+        <api-host>localhost:9999</api-host>
     </properties>
 
     <build>
@@ -43,6 +46,48 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.kongchen</groupId>
+                    <artifactId>swagger-maven-plugin</artifactId>
+                    <version>${swagger-maven-plugin-version}</version>
+                    <configuration>
+                        <apiSources>
+                            <apiSource>
+                                <springmvc>true</springmvc>
+                                <locations>
+                                    <location>software.sigma.klym</location>
+                                </locations>
+                                <schemes>
+                                    <scheme>http</scheme>
+                                </schemes>
+                                <host>${api-host}</host>
+                                <basePath>/</basePath>
+                                <info>
+                                    <title>${project.name}</title>
+                                    <version>v1</version>
+                                </info>
+                                <swaggerDirectory>generated/swagger</swaggerDirectory>
+                            </apiSource>
+                        </apiSources>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

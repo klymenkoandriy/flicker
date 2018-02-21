@@ -1,5 +1,8 @@
 package software.sigma.klym.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +19,7 @@ import java.util.List;
 /**
  * @author Andriy Klymenko
  */
+@Api(value = "User data operations", description = "RESTful API to interact with users data.")
 @RestController
 @RequestMapping(value = "/api/v1/users")
 public class UserController {
@@ -29,8 +33,12 @@ public class UserController {
                 LocalDate.of(2000, 01, 10)));
     }
 
-    @GetMapping(value = "/by-username")
-    public User getByUsername(@RequestParam(value = "username") String name) {
+    @ApiOperation(value = "Get user", httpMethod = "GET", response = User.class, tags = {"Internal services"},
+            notes = "Returns User with the specified username.")
+    @GetMapping
+    public User getByUsername(
+            @ApiParam(value = "Username", required = true)
+            @RequestParam(value = "username") String name) {
         for (User user : users) {
             if (user.getUsername().equals(name)) {
                 return user;
@@ -39,14 +47,12 @@ public class UserController {
         return  null;
     }
 
-    @PostMapping("")
+    @ApiOperation(value = "Save User", httpMethod = "POST", response = User.class,
+            notes = "Saves User.")
+    @PostMapping
     public User saveUser(@RequestBody User user) {
         users.add(0, user);
         return user;
     }
 
-    @GetMapping("")
-    public List<User> getAll() {
-        return users;
-    }
 }

@@ -1,5 +1,8 @@
 package software.sigma.klym.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +25,9 @@ import java.util.List;
 /**
  * @author Andriy Klymenko
  */
+@Api(value = "Messages data operations", description = "RESTful API to interact with messages resources.")
 @RestController
-@RequestMapping(value = "/api/v1/messages")
+@RequestMapping(value = "/api/v1/messages/items")
 public class MessageRestController {
 
     @Autowired
@@ -32,15 +36,16 @@ public class MessageRestController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping(value = "")
-    public ResponseEntity getByUserName(Principal principal,
-            @RequestParam(value = "username",  required = false) String usernameParam,
-            @RequestParam(value = "tag",  required = false) String tagParam,
-            @RequestParam(value = "page", required = false) String pageParam) {
-
-        String username = (usernameParam != null) ? usernameParam : "";
-        String tag = (tagParam != null) ? tagParam : "";
-        int page = StringUtils.isNotBlank(pageParam) ? Integer.parseInt(pageParam) : 0;
+    @ApiOperation(value = "Get messages", httpMethod = "GET", responseContainer = "List", response = MessageDTO.class,
+            notes = "Get messages using parameters.")
+    @GetMapping
+    public ResponseEntity getMessages(Principal principal,
+            @ApiParam(value = "The search string is used to find messages by username.", required = false, defaultValue = "")
+                @RequestParam(value = "username",  required = false) String username,
+            @ApiParam(value = "The search string is used to find messages by hash tag.", required = false, defaultValue = "")
+                @RequestParam(value = "tag",  required = false) String tag,
+            @ApiParam(value = "The page number for pagination.", required = false, defaultValue = "0")
+                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
 
         User user = userFeignService.getByUsername(principal.getName());
 
@@ -55,10 +60,14 @@ public class MessageRestController {
             result.add(new MessageDTO(message.getId(), message.getText(), username, user.getFirstName(), user.getLastName(), message.getCreatedAt()));
         }
         return ResponseEntity.ok().body(messages);
+
     }
 
-    @PostMapping("")
-    public Message saveMessage(Principal principal, @RequestParam String text) {
+    @ApiOperation(value = "Save message", httpMethod = "POST", response = MessageDTO.class,
+            notes = "Saves message.")
+    @PostMapping
+    public Message saveMessage(Principal principal,
+            @ApiParam(value = "The text to save.", required = true) @RequestParam String text) {
         Message message = new Message();
         message.setText(text);
         message.setUsername(principal.getName());
