@@ -35,4 +35,5 @@ eureka:
 application:
   filter:
     prefix: /api/v1/users
+    suffix: /my
     method: GET

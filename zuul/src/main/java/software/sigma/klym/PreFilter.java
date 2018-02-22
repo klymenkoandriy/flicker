@@ -23,6 +23,9 @@ public class PreFilter extends ZuulFilter {
     @Value("${application.filter.prefix}")
     private String prefix;
 
+    @Value("${application.filter.suffix}")
+    private String suffix;
+
     @Value("${application.filter.method}")
     private String method;
 
@@ -46,7 +49,9 @@ public class PreFilter extends ZuulFilter {
         RequestContext context = RequestContext.getCurrentContext();
         HttpServletRequest request = context.getRequest();
 
-        if (request.getRequestURL().toString().contains(prefix) && request.getMethod().equals(method)) {
+        if (request.getRequestURL().toString().contains(prefix)
+                && request.getMethod().equals(method)
+                && !request.getRequestURL().toString().endsWith(suffix)) {
             try {
                 context.getResponse().sendError(METHOD_NOT_ALLOWED.value(), METHOD_NOT_ALLOWED.getReasonPhrase());
             }

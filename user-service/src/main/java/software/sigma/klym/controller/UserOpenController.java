@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @Api(value = "User data operations", description = "RESTful API to interact with users data.")
 @RestController
 @RequestMapping(value = "/api/v1/users")
-public class UserController {
+public class UserOpenController {
 
     public static final String MESSAGE_REDUNDANT_ID = "Wrong parameter: redundant parameter 'id' in POST method.";
     public static final String MESSAGE_ALREADY_EXISTS = "User with the specified name already exists.";
@@ -34,7 +34,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @ApiOperation(value = "Get user", httpMethod = "GET", response = User.class, tags = {"Internal services"},
+    @ApiOperation(value = "Get user", httpMethod = "GET", response = User.class, tags = {"User internal services"},
             notes = "Returns User with the specified username.")
     @GetMapping
     public User getByUsername(

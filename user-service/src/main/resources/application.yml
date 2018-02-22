@@ -15,8 +15,8 @@ security:
     client:
       client-id: demo
       client-secret: demo
-      access-token-uri: ${auth-server}/oauth/token
-      user-authorization-uri: ${auth-server}/oauth/authorize
+#      access-token-uri: ${auth-server}/oauth/token
+#      user-authorization-uri: ${auth-server}/oauth/authorize
       scope: read, write
     resource:
       token-info-uri: ${auth-server}/oauth/check_token
