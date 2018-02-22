@@ -6,6 +6,7 @@ import software.sigma.klym.model.Message;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Andriy Klymenko
@@ -22,7 +23,7 @@ public class MessageRepositoryImpl implements MessageRepository {
 
     @Override
     public List<Message> findByUsername(String username) {
-        return  messages;
+        return  messages.stream().filter(e -> e.getUsername().equals(username)).collect(Collectors.toList());
     }
 
     @Override

@@ -41,25 +41,27 @@ public class MessageRestController {
     @GetMapping
     public ResponseEntity getMessages(Principal principal,
             @ApiParam(value = "The search string is used to find messages by username.", required = false, defaultValue = "")
-                @RequestParam(value = "username",  required = false) String username,
+                @RequestParam(value = "username",  defaultValue = "", required = false) String username,
             @ApiParam(value = "The search string is used to find messages by hash tag.", required = false, defaultValue = "")
                 @RequestParam(value = "tag",  required = false) String tag,
             @ApiParam(value = "The page number for pagination.", required = false, defaultValue = "0")
                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
 
-        User user = userFeignService.getByUsername(principal.getName());
+        List<Message> messages = null;
 
-        if (StringUtils.isNotBlank(username) && !user.getUsername().equals(username)) {
-            return ResponseEntity.badRequest().body(null);
+        if (StringUtils.isBlank(username)) {
+            messages = messageRepository.findAll();
+        } else {
+            messages = messageRepository.findByUsername(username);
         }
-
-        List<Message> messages = messageRepository.findByUsername(username);
 
         List<MessageDTO> result = new ArrayList<>();
         for (Message message : messages) {
-            result.add(new MessageDTO(message.getId(), message.getText(), username, user.getFirstName(), user.getLastName(), message.getCreatedAt()));
+            User user = userFeignService.getByUsername(message.getUsername());
+            result.add(new MessageDTO(message.getId(), message.getText(), user.getUsername(), user.getFirstName(), user.getLastName(), message.getCreatedAt()));
         }
-        return ResponseEntity.ok().body(messages);
+
+        return ResponseEntity.ok().body(result);
 
     }
 
