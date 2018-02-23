@@ -1,5 +1,6 @@
 package software.sigma.klym.domain;
 
+import org.springframework.data.repository.CrudRepository;
 import software.sigma.klym.model.User;
 
 /**
@@ -7,7 +8,7 @@ import software.sigma.klym.model.User;
  *
  * @author Andriy Klymenko
  */
-public interface UserRepository {
+public interface UserRepository extends CrudRepository<User, String> {
 
     /**
      * Returns the User entity with the specified username.
@@ -17,19 +18,4 @@ public interface UserRepository {
      */
     User findByUsername(String username);
 
-    /**
-     * Returns the User entity with the specified id.
-     *
-     * @param id id
-     * @return user data
-     */
-    User findById(String id);
-
-    /**
-     * Saves User entity.
-     *
-     * @param user user data
-     * @return user data
-     */
-    User save(User user);
 }

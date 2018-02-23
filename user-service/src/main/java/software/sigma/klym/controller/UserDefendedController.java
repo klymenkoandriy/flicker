@@ -67,7 +67,7 @@ public class UserDefendedController {
     @PutMapping
     public ResponseEntity updateUser(Principal principal, @RequestBody User newUserData) {
 
-        User user = userRepository.findById(newUserData.getId());
+        User user = userRepository.findOne(newUserData.getId());
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),
