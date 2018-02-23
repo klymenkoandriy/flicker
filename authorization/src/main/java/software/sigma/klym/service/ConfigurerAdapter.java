@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
+ * Application configuration.
+ *
  * @author Andriy Klymenko
  */
 @Configuration

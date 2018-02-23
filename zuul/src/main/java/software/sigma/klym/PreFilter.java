@@ -13,6 +13,8 @@ import java.io.IOException;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 
 /**
+ * The filter that is invoked before routing.
+ *
  * @author Andriy Klymenko
  */
 @Log

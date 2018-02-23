@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
+ * Message entity.
+ *
  * @author Andriy Klymenko
  */
 @Getter
@@ -19,4 +22,5 @@ public class Message {
     private String text;
     private String username;
     private LocalDateTime createdAt;
+    private List<String> tags;
 }

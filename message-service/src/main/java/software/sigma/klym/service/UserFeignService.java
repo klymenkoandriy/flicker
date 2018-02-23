@@ -7,11 +7,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import software.sigma.klym.model.User;
 
 /**
+ * Service to access the User micro-service.
+ *
  * @author Andriy Klymenko
  */
 @FeignClient(name = "user-service")
 public interface UserFeignService {
 
+    /**
+     * Returns the User with the specified username.
+     *
+     * @param username username
+     * @return user
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/api/v1/users")
     User getByUsername(@RequestParam(value = "username") String username);
 

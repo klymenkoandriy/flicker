@@ -8,6 +8,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 /**
+ * User entity.
+ *
  * @author Andriy Klymenko
  */
 @Getter

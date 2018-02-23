@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Andriy Klymenko
@@ -16,6 +17,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     final List<User> users = Collections.synchronizedList(new LinkedList<>());
 
+    /**
+     * Mock data.
+     */
     UserRepositoryImpl() {
         users.add(new User("1", "user", "User", "Me", "email@com", "password",
                 LocalDate.of(1990, 02, 20)));
@@ -34,7 +38,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User findById(String id) {
+        for (User user : users) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return  null;
+    }
+
+    @Override
     public User save(User user) {
+        user.setId(UUID.randomUUID().toString());
         users.add(0, user);
         return user;
     }

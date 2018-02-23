@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * Tag entity.
+ *
  * @author Andriy Klymenko
  */
 @Getter

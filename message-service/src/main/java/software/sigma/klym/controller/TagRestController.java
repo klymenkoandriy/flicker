@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Tag RESTful controller.
+ *
  * @author Andriy Klymenko
  */
 @Api(value = "Tags data operations", description = "RESTful API to interact with tags resources.")
@@ -25,6 +27,12 @@ public class TagRestController {
     @Autowired
     private TagRepository tagRepository;
 
+    /**
+     * Returns the specified number of tags sorted by the field 'used'.
+     *
+     * @param number number of tags
+     * @return tags
+     */
     @ApiOperation(value = "Get most popular tags", httpMethod = "GET", responseContainer = "List", response = String.class,
             notes = "Returns the specified number of the most popular tags.")
     @GetMapping

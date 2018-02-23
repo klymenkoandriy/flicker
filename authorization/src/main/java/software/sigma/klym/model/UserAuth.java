@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * User representation for authentication.
+ *
  * @author Andriy Klymenko
  */
 @Getter

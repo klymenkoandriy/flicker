@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
+ * MessageDTO entity, that contains message data and public user data.
+ *
  * @author Andriy Klymenko
  */
 @Getter

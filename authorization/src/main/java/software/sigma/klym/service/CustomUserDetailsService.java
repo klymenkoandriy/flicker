@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import software.sigma.klym.model.UserAuth;
 
 /**
+ * Service for provide user data for authentication.
+ *
  * @author Andriy Klymenko
  */
 @Service
