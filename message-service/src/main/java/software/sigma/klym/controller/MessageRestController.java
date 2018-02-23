@@ -19,6 +19,7 @@ import software.sigma.klym.domain.MessageRepository;
 import software.sigma.klym.model.Message;
 import software.sigma.klym.model.MessageDTO;
 import software.sigma.klym.model.User;
+import software.sigma.klym.service.TagService;
 import software.sigma.klym.service.UserFeignService;
 import software.sigma.klym.util.MessageUtils;
 
@@ -47,6 +48,8 @@ public class MessageRestController {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private TagService tagService;
     /**
      * Returns messages according to the search parameters.
      *
@@ -98,11 +101,13 @@ public class MessageRestController {
     @PostMapping
     public Message saveMessage(Principal principal,
             @ApiParam(value = "The text to save.", required = true) @RequestParam(value = "text",  required = true) String text) {
+        List<String> tagNames = MessageUtils.extractTags(text);
         Message message = new Message();
         message.setText(text);
-        message.setTags(MessageUtils.extractTags(text));
+        message.setTags(tagNames);
         message.setUsername(principal.getName());
         message.setCreatedAt(LocalDateTime.now());
+        tagService.addTags(tagNames);
         return messageRepository.save(message);
     }
 

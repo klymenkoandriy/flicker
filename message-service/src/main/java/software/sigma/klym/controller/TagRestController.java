@@ -13,6 +13,7 @@ import software.sigma.klym.model.Tag;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Tag RESTful controller.
@@ -39,6 +40,7 @@ public class TagRestController {
     public List<String> getHottestTags(
             @ApiParam(value = "Number of tags.", required = false, defaultValue = "")
             @RequestParam(value = "number", required = false, defaultValue = "10") Integer number) {
-        return tagRepository.findHottest(number).stream().map(Tag::getName).collect(Collectors.toList());
+//        return tagRepository.findHottest(number).stream().map(Tag::getName).collect(Collectors.toList());
+        return StreamSupport.stream(tagRepository.findAll().spliterator(), false).map(Tag::getName).collect(Collectors.toList());
     }
 }

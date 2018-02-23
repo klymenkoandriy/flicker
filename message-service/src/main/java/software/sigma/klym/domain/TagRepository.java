@@ -1,31 +1,22 @@
 package software.sigma.klym.domain;
 
+import org.springframework.data.repository.CrudRepository;
 import software.sigma.klym.model.Tag;
-
-import java.util.List;
 
 /**
  * Tag repository.
  *
  * @author Andriy Klymenko
  */
-public interface TagRepository {
+public interface TagRepository extends CrudRepository<Tag, String> {
 
-    /**
-     * Returns the specified number of tags sorted by the field 'used'.
-     *
-     * @param number number of tags
-     * @return tags
-     */
-    List<Tag> findHottest(int number);
-
-    /**
-     * Saves tag.
-     *
-     * @param tag tag
-     * @return saved tag
-     */
-    Tag save(Tag tag);
+//    /**
+//     * Returns the specified number of tags sorted by the field 'used'.
+//     *
+//     * @param number number of tags
+//     * @return tags
+//     */
+//    List<Tag> findHottest(int number);
 
     /**
      * Returns tag with specified name.
