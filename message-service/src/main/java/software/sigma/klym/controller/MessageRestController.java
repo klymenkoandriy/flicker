@@ -118,13 +118,8 @@ public class MessageRestController {
     public Message saveMessage(Principal principal,
             @ApiParam(value = "The text to save.", required = true) @RequestParam(value = "text",  required = true) String text) {
         Set<String> tagNames = MessageUtils.extractTags(text);
-        Message message = new Message();
-        message.setText(text);
-        message.setTagNames(tagNames);
-        message.setUsername(principal.getName());
-        message.setCreatedAt(LocalDateTime.now());
         tagService.addTags(tagNames);
-        return messageRepository.save(message);
+        return messageRepository.save(new Message(text, principal.getName(), LocalDateTime.now(), tagNames));
     }
 
     /**

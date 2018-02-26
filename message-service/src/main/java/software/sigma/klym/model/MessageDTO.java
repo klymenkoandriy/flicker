@@ -1,6 +1,5 @@
 package software.sigma.klym.model;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +15,26 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
-@AllArgsConstructor
-public class MessageDTO {
+@EqualsAndHashCode(callSuper = true)
+public class MessageDTO extends BaseMessage {
 
-    private String id;
-    private String text;
-    private String username;
     private String firstName;
-    private String lastName;
-    private LocalDateTime createdAt;
 
+    private String lastName;
+
+    /**
+     *  Constructor for creation.
+     *
+     * @param id id
+     * @param text text
+     * @param username username
+     * @param firstName first name
+     * @param lastName last name
+     * @param createdAt creation date and time
+     */
+    public MessageDTO(String id, String text, String username, String firstName, String lastName, LocalDateTime createdAt) {
+        super(id, text, username, createdAt);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
