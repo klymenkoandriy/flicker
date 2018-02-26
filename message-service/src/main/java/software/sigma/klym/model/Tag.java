@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 /**
  * Tag entity.
@@ -18,6 +19,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class Tag {
 
+    @Id
     private String id;
 
     private String name;

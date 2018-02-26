@@ -4,9 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Message entity.
@@ -18,9 +20,12 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Message {
+
+    @Id
     private String id;
     private String text;
     private String username;
     private LocalDateTime createdAt;
-    private List<String> tags;
+    private Set<String> tagNames = new HashSet<>();
+
 }

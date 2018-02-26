@@ -1,6 +1,6 @@
 package software.sigma.klym.service;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Tag service-helper.
@@ -14,6 +14,6 @@ public interface TagService {
      *
      * @param tagNames tag names
      */
-    void addTags(List<String> tagNames);
+    void addTags(Set<String> tagNames);
 
 }

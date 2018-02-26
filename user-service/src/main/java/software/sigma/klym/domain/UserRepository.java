@@ -1,6 +1,6 @@
 package software.sigma.klym.domain;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import software.sigma.klym.model.User;
 
 /**
@@ -8,7 +8,7 @@ import software.sigma.klym.model.User;
  *
  * @author Andriy Klymenko
  */
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, String> {
 
     /**
      * Returns the User entity with the specified username.

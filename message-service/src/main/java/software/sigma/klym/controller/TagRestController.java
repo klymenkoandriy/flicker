@@ -4,6 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +16,6 @@ import software.sigma.klym.model.Tag;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Tag RESTful controller.
@@ -24,6 +26,10 @@ import java.util.stream.StreamSupport;
 @RestController
 @RequestMapping(value = "/api/v1/messages/tags")
 public class TagRestController {
+
+    private static final String DEFAULT_TAG_SIZE = "10";
+
+    private static final String SORTED_FIELD = "used";
 
     @Autowired
     private TagRepository tagRepository;
@@ -38,9 +44,11 @@ public class TagRestController {
             notes = "Returns the specified number of the most popular tags.")
     @GetMapping
     public List<String> getHottestTags(
-            @ApiParam(value = "Number of tags.", required = false, defaultValue = "")
-            @RequestParam(value = "number", required = false, defaultValue = "10") Integer number) {
-//        return tagRepository.findHottest(number).stream().map(Tag::getName).collect(Collectors.toList());
-        return StreamSupport.stream(tagRepository.findAll().spliterator(), false).map(Tag::getName).collect(Collectors.toList());
+            @ApiParam(value = "Number of tags.", required = false, defaultValue = DEFAULT_TAG_SIZE)
+            @RequestParam(value = "number", required = false, defaultValue = DEFAULT_TAG_SIZE) Integer number) {
+
+        Pageable pageRequest = new PageRequest(0, number, new Sort(Sort.Direction.DESC, SORTED_FIELD));
+        List<Tag> tags = tagRepository.findAll(pageRequest).getContent();
+        return tags.stream().map(Tag::getName).collect(Collectors.toList());
     }
 }

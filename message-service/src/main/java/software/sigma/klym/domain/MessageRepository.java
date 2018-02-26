@@ -1,33 +1,33 @@
 package software.sigma.klym.domain;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import software.sigma.klym.model.Message;
-
-import java.util.List;
 
 /**
  * Message repository.
  *
  * @author Andriy Klymenko
  */
-public interface MessageRepository {
+public interface MessageRepository extends MongoRepository<Message, String> {
 
     /**
-     * Returns messages with pagination.
+     * Returns Page object with list of messages according to pagination parameter.
      *
-     * @param pageNumber page number
-     * @param pageSize page size
-     * @return messages
+     * @param pageRequest page request
+     * @return Page object with list of messages
      */
-    List<Message> findAll(int pageNumber, int pageSize);
+    Page<Message> findAll(Pageable pageRequest);
 
     /**
-     * Returns messages that contain specified tag with pagination.
+     * Returns Page object with list of messages that contain specified tagName according to pagination parameter.
+     *
+     * @param pageRequest page request
      * @param tagName tag name
-     * @param pageNumber page number
-     * @param pageSize page size
-     * @return messages
+     * @return Page object with list of messages
      */
-    List<Message> findByTag(String tagName, int pageNumber, int pageSize);
+    Page<Message> findByTagNamesContaining(Pageable pageRequest, String tagName);
 
     /**
      * Saves message.

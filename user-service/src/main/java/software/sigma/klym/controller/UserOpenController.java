@@ -5,19 +5,18 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.klym.domain.UserRepository;
 import software.sigma.klym.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -30,7 +29,6 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/api/v1/users")
 public class UserOpenController {
 
-    public static final String INFO_REDUNDANT_ID = "Wrong parameter: redundant parameter 'id' in POST method.";
     public static final String INFO_ALREADY_EXISTS = "User with the specified name already exists.";
 
     @Autowired
@@ -54,26 +52,37 @@ public class UserOpenController {
     /**
      * Saves User data.
      *
-     * @param user user data
-     * @return saved user data
+     * @param username username
+     * @param firstName first name
+     * @param lastName last name
+     * @param email email
+     * @param password password
+     * @param birthDate date of birthday
+     * @return saved user
      */
-    @ApiOperation(value = "Save User", httpMethod = "POST", response = User.class,
-            notes = "Saves User. To save new user - 'id' field must be null or empty.")
-    @ApiResponses(value = { @ApiResponse(code = 400, message = INFO_REDUNDANT_ID),
-            @ApiResponse(code = 422, message = INFO_ALREADY_EXISTS) })
+    @ApiOperation(value = "Save User", httpMethod = "POST", response = User.class, notes = "Saves new User.")
+    @ApiResponses(value = { @ApiResponse(code = 422, message = INFO_ALREADY_EXISTS) })
     @PostMapping
-    public ResponseEntity saveUser(@RequestBody User user) {
+    public ResponseEntity saveUser(
+            @ApiParam(value = "Username string used to login.", required = true)
+                @RequestParam(value = "username",  required = true) String username,
+            @ApiParam(value = "First name.", required = true)
+                @RequestParam(value = "firstName",  required = true) String firstName,
+            @ApiParam(value = "Last name.", required = true)
+                @RequestParam(value = "lastName",  required = true) String lastName,
+            @ApiParam(value = "Email address.", required = true)
+                @RequestParam(value = "email",  required = true) String email,
+            @ApiParam(value = "Password string used to login.", required = true)
+                @RequestParam(value = "password",  required = true) String password,
+            @ApiParam(value = "Date of birthday.", required = true)
+                @RequestParam(value = "birthDate",  required = true) String birthDate) {
 
-        if (StringUtils.isNotBlank(user.getId())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
-                    INFO_REDUNDANT_ID));
-        }
-
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        if (userRepository.findByUsername(username) != null) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ApiError(LocalDateTime.now(), HttpStatus.UNPROCESSABLE_ENTITY.value(),
                     INFO_ALREADY_EXISTS));
         }
 
+        User user = new User(null, username, firstName, lastName, email, password, LocalDate.parse(birthDate));
         return ResponseEntity.ok().body(userRepository.save(user));
     }
 

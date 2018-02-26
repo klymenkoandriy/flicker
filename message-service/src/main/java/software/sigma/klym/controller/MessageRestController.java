@@ -7,6 +7,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import software.sigma.klym.domain.MessageRepository;
 import software.sigma.klym.model.Message;
 import software.sigma.klym.model.MessageDTO;
+import software.sigma.klym.model.MessageResponse;
 import software.sigma.klym.model.User;
 import software.sigma.klym.service.TagService;
 import software.sigma.klym.service.UserFeignService;
@@ -27,6 +32,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Message RESTful controller.
@@ -41,6 +47,12 @@ public class MessageRestController {
     private static final String MESSAGE_NOT_FOUND = "Message not found.";
 
     private static final String DELETING_FORBIDDEN = "Deleting another user's message is forbidden.";
+
+    private static final String DEFAULT_PAGE_NUMBER = "0";
+
+    private static final String DEFAULT_PAGE_SIZE = "5";
+
+    private static final String SORTED_FIELD = "createdAt";
 
     @Autowired
     private UserFeignService userFeignService;
@@ -59,33 +71,37 @@ public class MessageRestController {
      * @param pageSize page size
      * @return response with entities
      */
-    @ApiOperation(value = "Get messages", httpMethod = "GET", responseContainer = "List", response = MessageDTO.class,
+    @ApiOperation(value = "Get messages", httpMethod = "GET", response = MessageResponse.class,
             notes = "Get messages using parameters.")
     @GetMapping
-    public ResponseEntity getMessages(Principal principal,
+    public ResponseEntity<MessageResponse> getMessages(Principal principal,
             @ApiParam(value = "The search string that used to find messages by hash tag.", required = false, defaultValue = "")
                 @RequestParam(value = "tag",  required = false) String tag,
-            @ApiParam(value = "The page number for pagination.", required = false, defaultValue = "0")
-                @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @ApiParam(value = "The page size for pagination.", required = false, defaultValue = "1")
-                @RequestParam(value = "pageSize", required = false, defaultValue = "0") Integer pageSize) {
+            @ApiParam(value = "The page number for pagination.", required = false, defaultValue = DEFAULT_PAGE_NUMBER)
+                @RequestParam(value = "pageNumber", required = false, defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNumber,
+            @ApiParam(value = "The page size for pagination.", required = false, defaultValue = DEFAULT_PAGE_SIZE)
+                @RequestParam(value = "pageSize", required = false, defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
 
-        List<Message> messages = null;
+        Page<Message> pageMessages;
+        Pageable pageRequest = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, SORTED_FIELD));
 
         if (StringUtils.isBlank(tag)) {
-            messages = messageRepository.findAll(pageNumber, pageSize);
+            pageMessages = messageRepository.findAll(pageRequest);
         } else {
-            messages = messageRepository.findByTag(tag, pageNumber, pageSize);
+            pageMessages = messageRepository.findByTagNamesContaining(pageRequest, tag);
         }
 
-        List<MessageDTO> result = new ArrayList<>();
-        for (Message message : messages) {
+        List<MessageDTO> messageDTOs = new ArrayList<>();
+        for (Message message : pageMessages.getContent()) {
             User user = userFeignService.getByUsername(message.getUsername());
-            result.add(new MessageDTO(message.getId(), message.getText(), user.getUsername(), user.getFirstName(), user.getLastName(), message.getCreatedAt()));
+            messageDTOs.add(new MessageDTO(message.getId(), message.getText(), user.getUsername(), user.getFirstName(), user.getLastName(),
+                    message.getCreatedAt()));
         }
 
-        return ResponseEntity.ok().body(result);
+        MessageResponse messageResponse = new MessageResponse(messageDTOs, pageMessages.isFirst(), pageMessages.isLast(), pageMessages.getNumberOfElements(),
+                pageMessages.getTotalPages(), pageMessages.getTotalElements(), pageMessages.getSize(), pageMessages.getNumber());
 
+        return ResponseEntity.ok().body(messageResponse);
     }
 
     /**
@@ -101,10 +117,10 @@ public class MessageRestController {
     @PostMapping
     public Message saveMessage(Principal principal,
             @ApiParam(value = "The text to save.", required = true) @RequestParam(value = "text",  required = true) String text) {
-        List<String> tagNames = MessageUtils.extractTags(text);
+        Set<String> tagNames = MessageUtils.extractTags(text);
         Message message = new Message();
         message.setText(text);
-        message.setTags(tagNames);
+        message.setTagNames(tagNames);
         message.setUsername(principal.getName());
         message.setCreatedAt(LocalDateTime.now());
         tagService.addTags(tagNames);

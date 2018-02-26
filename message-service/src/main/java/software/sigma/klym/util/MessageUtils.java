@@ -1,7 +1,7 @@
 package software.sigma.klym.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
  */
 public final class MessageUtils {
 
-    private static final String HASH_TAG = "#";
+    public static final String HASH_TAG = "#";
 
     private MessageUtils() {
         throw new IllegalAccessError("Utility class!");
@@ -23,13 +23,13 @@ public final class MessageUtils {
      * @param text text
      * @return list of tag names
      */
-    public static List<String> extractTags(String text) {
-        List<String> tags = new ArrayList<>();
+    public static Set<String> extractTags(String text) {
+        Set<String> tags = new HashSet<>();
         StringTokenizer tokenizer = new StringTokenizer(text);
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
             if (token.startsWith(HASH_TAG)) {
-                tags.add(token);
+                tags.add(token.replace(HASH_TAG, ""));
             }
         }
         return tags;

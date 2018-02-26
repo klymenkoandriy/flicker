@@ -6,7 +6,7 @@ import software.sigma.klym.domain.TagRepository;
 import software.sigma.klym.model.Tag;
 import software.sigma.klym.service.TagService;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Tag service implementation.
@@ -20,13 +20,11 @@ public class TagServiceImpl implements TagService {
     private TagRepository tagRepository;
 
     @Override
-    public void addTags(List<String> tagNames) {
+    public void addTags(Set<String> tagNames) {
         for (String tagName : tagNames) {
             Tag tag = tagRepository.findByName(tagName);
             if (tag == null) {
-                tag = new Tag();
-                tag.setName(tagName);
-                tag.setUsed(1);
+                tag = new Tag(null, tagName, 1);
             } else {
                 tag.setUsed(tag.getUsed() + 1);
             }
