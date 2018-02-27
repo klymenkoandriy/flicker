@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Message extends BaseMessage {
 
+    @NotNull
     private Set<String> tagNames = new HashSet<>();
 
     /**

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -18,8 +19,10 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class MessageDTO extends BaseMessage {
 
+    @Size(min = 3, max = 64)
     private String firstName;
 
+    @Size(min = 3, max = 64)
     private String lastName;
 
     /**

@@ -8,16 +8,18 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.klym.domain.UserRepository;
+import software.sigma.klym.errors.ApiError;
+import software.sigma.klym.errors.RequestException;
 import software.sigma.klym.model.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * User RESTful controller that is used without authentication.
@@ -29,7 +31,7 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/api/v1/users")
 public class UserOpenController {
 
-    public static final String INFO_ALREADY_EXISTS = "User with the specified name already exists.";
+    public static final String INFO_ALREADY_EXISTS = "User with the specified name already exists";
 
     @Autowired
     private UserRepository userRepository;
@@ -60,8 +62,9 @@ public class UserOpenController {
      * @param birthDate date of birthday
      * @return saved user
      */
+    @Validated
     @ApiOperation(value = "Save User", httpMethod = "POST", response = User.class, notes = "Saves new User.")
-    @ApiResponses(value = { @ApiResponse(code = 422, message = INFO_ALREADY_EXISTS) })
+    @ApiResponses(value = { @ApiResponse(code = 422, message = INFO_ALREADY_EXISTS, response = ApiError.class) })
     @PostMapping
     public ResponseEntity saveUser(
             @ApiParam(value = "Username string used to login.", required = true)
@@ -78,8 +81,7 @@ public class UserOpenController {
                 @RequestParam(value = "birthDate",  required = true) String birthDate) {
 
         if (userRepository.findByUsername(username) != null) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ApiError(LocalDateTime.now(), HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                    INFO_ALREADY_EXISTS));
+            throw new RequestException(HttpStatus.UNPROCESSABLE_ENTITY, INFO_ALREADY_EXISTS);
         }
 
         User user = new User(null, username, firstName, lastName, email, password, LocalDate.parse(birthDate));

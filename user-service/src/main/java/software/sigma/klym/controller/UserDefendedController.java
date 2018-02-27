@@ -7,16 +7,18 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.klym.domain.UserRepository;
+import software.sigma.klym.errors.ApiError;
+import software.sigma.klym.errors.RequestException;
 import software.sigma.klym.model.User;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 
 /**
  * User RESTful controller that is used with authentication.
@@ -28,11 +30,11 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/api/v1/users/my")
 public class UserDefendedController {
 
-    private static final String INFO_UPDATING_ANOTHER_FORBIDDEN = "Updating another user's data is forbidden.";
+    private static final String INFO_UPDATING_ANOTHER_FORBIDDEN = "Updating another user's data is forbidden";
 
-    private static final String INFO_UPDATING_NAME_FORBIDDEN = "Updating username is forbidden.";
+    private static final String INFO_UPDATING_NAME_FORBIDDEN = "Updating username is forbidden";
 
-    private static final String INFO_USER_NOT_FOUND = "User not found.";
+    private static final String INFO_USER_NOT_FOUND = "User not found";
 
     @Autowired
     private UserRepository userRepository;
@@ -57,31 +59,28 @@ public class UserDefendedController {
      * @param newUserData user data
      * @return saved user data
      */
+    @Validated
     @ApiOperation(value = "Update current user", httpMethod = "PUT", response = User.class,
             notes = "Updates User data.")
-    @ApiResponses(value = { @ApiResponse(code = 404, message = INFO_USER_NOT_FOUND),
-            @ApiResponse(code = 400, message = INFO_UPDATING_ANOTHER_FORBIDDEN),
-            @ApiResponse(code = 400, message = INFO_UPDATING_NAME_FORBIDDEN)
+    @ApiResponses(value = { @ApiResponse(code = 404, message = INFO_USER_NOT_FOUND, response = ApiError.class),
+            @ApiResponse(code = 406, message = INFO_UPDATING_ANOTHER_FORBIDDEN, response = ApiError.class),
+            @ApiResponse(code = 400, message = INFO_UPDATING_NAME_FORBIDDEN, response = ApiError.class)
     })
-
     @PutMapping
     public ResponseEntity updateUser(Principal principal, @RequestBody User newUserData) {
 
         User user = userRepository.findOne(newUserData.getId());
 
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),
-                    INFO_USER_NOT_FOUND));
+            throw new RequestException(HttpStatus.NOT_FOUND, INFO_USER_NOT_FOUND);
         }
 
         if (!user.getUsername().equals(principal.getName())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
-                    INFO_UPDATING_ANOTHER_FORBIDDEN));
+            throw new RequestException(HttpStatus.NOT_ACCEPTABLE, INFO_UPDATING_ANOTHER_FORBIDDEN);
         }
 
         if (!newUserData.getUsername().equals(principal.getName())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
-                    INFO_UPDATING_NAME_FORBIDDEN));
+            throw new RequestException(HttpStatus.BAD_REQUEST, INFO_UPDATING_NAME_FORBIDDEN);
         }
 
         return ResponseEntity.ok().body(userRepository.save(newUserData));
