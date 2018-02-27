@@ -1,4 +1,4 @@
-package software.sigma.klym.errors;
+package software.sigma.klym.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

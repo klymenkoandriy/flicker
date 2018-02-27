@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.sigma.klym.domain.UserRepository;
-import software.sigma.klym.errors.ApiError;
-import software.sigma.klym.errors.RequestException;
+import software.sigma.klym.error.ApiError;
+import software.sigma.klym.exception.RequestException;
 import software.sigma.klym.model.User;
 
 import java.security.Principal;

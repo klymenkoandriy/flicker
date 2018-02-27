@@ -1,4 +1,4 @@
-package software.sigma.klym.errors;
+package software.sigma.klym.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

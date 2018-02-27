@@ -72,6 +72,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+        <dependency>
+            <groupId>software.sigma.klym</groupId>
+            <artifactId>commons</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
