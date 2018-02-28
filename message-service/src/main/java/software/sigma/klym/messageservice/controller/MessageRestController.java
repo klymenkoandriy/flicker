@@ -99,8 +99,10 @@ public class MessageRestController {
         List<MessageDTO> messageDTOs = new ArrayList<>();
         for (Message message : pageMessages.getContent()) {
             User user = userFeignService.getByUsername(message.getUsername());
-            messageDTOs.add(new MessageDTO(message.getId(), message.getText(), user.getUsername(), user.getFirstName(), user.getLastName(),
-                    message.getCreatedAt()));
+            if (user != null) {
+                messageDTOs.add(new MessageDTO(message.getId(), message.getText(), user.getUsername(), user.getFirstName(), user.getLastName(),
+                        message.getCreatedAt()));
+            }
         }
 
         MessageResponse messageResponse = new MessageResponse(messageDTOs, pageMessages.isFirst(), pageMessages.isLast(), pageMessages.getNumberOfElements(),
