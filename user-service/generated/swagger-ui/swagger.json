@@ -1,0 +1,230 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "v1",
+    "title" : "user-service"
+  },
+  "host" : "localhost:8081",
+  "basePath" : "/",
+  "tags" : [ {
+    "name" : "User data operations",
+    "description" : "RESTful API to interact with users data."
+  }, {
+    "name" : "User internal services"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/api/v1/users" : {
+      "get" : {
+        "tags" : [ "User internal services" ],
+        "summary" : "Get user",
+        "description" : "Returns User with the specified username.",
+        "operationId" : "getByUsername",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "Username",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "User data operations" ],
+        "summary" : "Save User",
+        "description" : "Saves new User.",
+        "operationId" : "saveUser",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "Username string used to login.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "firstName",
+          "in" : "query",
+          "description" : "First name.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "lastName",
+          "in" : "query",
+          "description" : "Last name.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "email",
+          "in" : "query",
+          "description" : "Email address.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "Password string used to login.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "birthDate",
+          "in" : "query",
+          "description" : "Date of birthday.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "422" : {
+            "description" : "User with the specified name already exists",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/my" : {
+      "get" : {
+        "tags" : [ "User data operations" ],
+        "summary" : "Get current user",
+        "description" : "Returns User entity for current user.",
+        "operationId" : "getCurrentUser",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ "read" ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "User data operations" ],
+        "summary" : "Update current user",
+        "description" : "Updates User data.",
+        "operationId" : "updateUser",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "Updating username is forbidden",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          },
+          "404" : {
+            "description" : "User not found",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          },
+          "406" : {
+            "description" : "Updating another user's data is forbidden",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ "write" ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "oauth2" : {
+      "type" : "oauth2",
+      "tokenUrl" : "http://localhost:9999/uaa/oauth/token",
+      "flow" : "password",
+      "scopes" : {
+        "write" : "write data",
+        "read" : "read data"
+      }
+    }
+  },
+  "definitions" : {
+    "ApiError" : {
+      "type" : "object",
+      "properties" : {
+        "timestamp" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "error" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "path" : {
+          "type" : "string"
+        }
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        },
+        "firstName" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        },
+        "lastName" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        },
+        "birthDate" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      }
+    }
+  }
+}

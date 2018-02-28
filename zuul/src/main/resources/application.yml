@@ -24,7 +24,7 @@ zuul:
       path: /api/v1/users/**
       service-id: user-service
       sensitiveHeaders:
-      url: http://localhost:18082/
+      url: http://localhost:8081/
       strip-prefix: false
 
 eureka:

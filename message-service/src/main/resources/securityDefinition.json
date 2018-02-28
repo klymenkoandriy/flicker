@@ -1,0 +1,11 @@
+{
+  "oauth2": {
+    "type": "oauth2",
+    "tokenUrl": "http://localhost:9999/uaa/oauth/token",
+    "flow": "password",
+    "scopes": {
+      "write": "write data",
+      "read": "read data"
+    }
+  }
+}

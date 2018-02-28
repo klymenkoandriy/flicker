@@ -109,19 +109,20 @@
                     <apiSources>
                         <apiSource>
                             <springmvc>true</springmvc>
-                            <locations>
-                                <location>software.sigma.klym</location>
-                            </locations>
-                            <schemes>
-                                <scheme>http</scheme>
-                            </schemes>
+                            <locations>software.sigma.klym.messageservice.controller</locations>
+                            <schemes>http </schemes>
                             <host>${api-message-host}</host>
                             <basePath>/</basePath>
                             <info>
                                 <title>${project.name}</title>
                                 <version>v1</version>
                             </info>
-                            <swaggerDirectory>target/generated-sources/swagger</swaggerDirectory>
+                            <securityDefinitions>
+                                <securityDefinition>
+                                    <json>/securityDefinition.json</json>
+                                </securityDefinition>
+                            </securityDefinitions>
+                            <swaggerDirectory>${project.basedir}/generated/swagger-ui</swaggerDirectory>
                         </apiSource>
                     </apiSources>
                 </configuration>

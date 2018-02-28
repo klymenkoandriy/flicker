@@ -1,0 +1,262 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "v1",
+    "title" : "message-service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "tags" : [ {
+    "name" : "Messages data operations",
+    "description" : "RESTful API to interact with messages resources."
+  }, {
+    "name" : "Tags data operations",
+    "description" : "RESTful API to interact with tags resources."
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/api/v1/messages/items" : {
+      "get" : {
+        "tags" : [ "Messages data operations" ],
+        "summary" : "Get messages",
+        "description" : "Get messages using parameters.",
+        "operationId" : "getMessages",
+        "parameters" : [ {
+          "name" : "tag",
+          "in" : "query",
+          "description" : "The search string that used to find messages by hash tag.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "pageNumber",
+          "in" : "query",
+          "description" : "The page number for pagination.",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "description" : "The page size for pagination.",
+          "required" : false,
+          "type" : "integer",
+          "default" : 5,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/MessageResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ "read" ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Messages data operations" ],
+        "summary" : "Save message",
+        "description" : "Saves message.",
+        "operationId" : "saveMessage",
+        "parameters" : [ {
+          "name" : "text",
+          "in" : "query",
+          "description" : "The text to save.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/MessageDTO"
+            }
+          },
+          "400" : {
+            "description" : "Not valid parameters",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ "write" ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Messages data operations" ],
+        "summary" : "Delete message",
+        "description" : "Deletes message with specified id.",
+        "operationId" : "deleteMessage",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "Message id to delete.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "404" : {
+            "description" : "Message not found",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          },
+          "406" : {
+            "description" : "Deleting another user's message is forbidden",
+            "schema" : {
+              "$ref" : "#/definitions/ApiError"
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ "write" ]
+        } ]
+      }
+    },
+    "/api/v1/messages/tags" : {
+      "get" : {
+        "tags" : [ "Tags data operations" ],
+        "summary" : "Get most popular tags",
+        "description" : "Returns the specified number of the most popular tags.",
+        "operationId" : "getHottestTags",
+        "parameters" : [ {
+          "name" : "number",
+          "in" : "query",
+          "description" : "Number of tags.",
+          "required" : false,
+          "type" : "integer",
+          "default" : 10,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "oauth2" : [ "read" ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "oauth2" : {
+      "type" : "oauth2",
+      "tokenUrl" : "http://localhost:9999/uaa/oauth/token",
+      "flow" : "password",
+      "scopes" : {
+        "write" : "write data",
+        "read" : "read data"
+      }
+    }
+  },
+  "definitions" : {
+    "ApiError" : {
+      "type" : "object",
+      "properties" : {
+        "timestamp" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "error" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "path" : {
+          "type" : "string"
+        }
+      }
+    },
+    "MessageDTO" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "text" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 1024
+        },
+        "username" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "firstName" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        },
+        "lastName" : {
+          "type" : "string",
+          "minLength" : 3,
+          "maxLength" : 64
+        }
+      }
+    },
+    "MessageResponse" : {
+      "type" : "object",
+      "properties" : {
+        "content" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MessageDTO"
+          }
+        },
+        "first" : {
+          "type" : "boolean"
+        },
+        "last" : {
+          "type" : "boolean"
+        },
+        "numberOfElements" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "totalPages" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "totalElements" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "number" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+}

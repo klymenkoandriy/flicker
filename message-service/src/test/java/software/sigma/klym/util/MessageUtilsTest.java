@@ -1,6 +1,7 @@
 package software.sigma.klym.util;
 
 import org.junit.Test;
+import software.sigma.klym.messageservice.util.MessageUtils;
 
 import java.util.Set;
 
