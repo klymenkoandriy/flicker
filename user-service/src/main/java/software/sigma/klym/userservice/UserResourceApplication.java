@@ -32,6 +32,6 @@ public class UserResourceApplication extends ResourceServerConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/v1/users/my**").access("#oauth2.hasScope('read')")
-                .antMatchers(HttpMethod.PUT, "/api/v1/users/my**").access("#oauth2.hasScope('write')");
+                .antMatchers(HttpMethod.PUT, "/api/v1/users/my**").access("#oauth2.hasScope('read')");
     }
 }

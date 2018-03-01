@@ -1,0 +1,85 @@
+version: "3"
+
+services:
+
+  user-db:
+    image: mongo
+    container_name: user-db
+    ports:
+      - "27017:27017"
+
+  message-db:
+    image: mongo
+    container_name: message-db
+    ports:
+      - "27018:27017"
+
+  eureka:
+    image: eureka-image
+    build:
+      context: ./eureka
+    container_name: eureka
+    ports:
+      - "8761:8761"
+
+  user-service:
+    image: user-service-image
+    build:
+      context: ./user-service
+    container_name: user-service
+    depends_on:
+      - eureka
+      - user-db
+    ports:
+       - "8081:8081"
+    links:
+      - user-db
+      - eureka
+
+  authorization:
+    image: authorization-image
+    build:
+      context: ./authorization
+    container_name: authorization
+    depends_on:
+      - eureka
+      - user-service
+    ports:
+      - "18080:18080"
+    links:
+      - user-service
+      - eureka
+
+  message-service:
+    image: message-service-image
+    build:
+      context: ./message-service
+    container_name: message-service
+    depends_on:
+      - eureka
+      - message-db
+      - user-service
+    ports:
+      - "8080:8080"
+    links:
+      - message-db
+      - eureka
+      - user-service
+      - authorization
+
+  zuul:
+    image: zuul-image
+    build:
+      context: ./zuul
+    container_name: zuul
+    ports:
+      - "9999:9999"
+    depends_on:
+      - user-service
+      - message-service
+      - authorization
+    links:
+      - user-service
+      - message-service
+      - authorization
+      - eureka

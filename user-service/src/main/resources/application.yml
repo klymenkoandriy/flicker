@@ -8,6 +8,9 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 
 auth-server: http://localhost:9999/uaa
+#auth-server: http://zuul:9999/uaa
+#auth-server: http://authorization:18080/uaa
+
 security:
   basic:
     enabled: false
@@ -30,4 +33,9 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
-
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: false
+#    serviceUrl:
+#      defaultZone: ${EUREKA_URI:http://eureka:8761/eureka}
