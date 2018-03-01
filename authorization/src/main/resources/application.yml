@@ -4,11 +4,7 @@ server:
 
 spring:
   application:
-    name: uaa
-
-#spring:
-#  application:
-#    name: authorization
+    name: authorization
 
 security:
   oauth2:
