@@ -40,6 +40,27 @@
         <api-host>localhost:9999</api-host>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <auth-service-host>localhost</auth-service-host>
+                <eureka-service-host>localhost</eureka-service-host>
+                <message-service-host>localhost</message-service-host>
+                <user-service-host>localhost</user-service-host>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <auth-service-host>authorization</auth-service-host>
+                <eureka-service-host>eureka</eureka-service-host>
+                <message-service-host>message-service</message-service-host>
+                <user-service-host>user-service</user-service-host>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>
