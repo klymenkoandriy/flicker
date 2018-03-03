@@ -13,14 +13,6 @@ import software.sigma.klym.messageservice.model.Message;
 public interface MessageRepository extends MongoRepository<Message, String> {
 
     /**
-     * Returns Page object with list of messages according to pagination parameter.
-     *
-     * @param pageRequest page request
-     * @return Page object with list of messages
-     */
-    Page<Message> findAll(Pageable pageRequest);
-
-    /**
      * Returns Page object with list of messages that contain specified tagName according to pagination parameter.
      *
      * @param pageRequest page request
@@ -28,27 +20,4 @@ public interface MessageRepository extends MongoRepository<Message, String> {
      * @return Page object with list of messages
      */
     Page<Message> findByTagNamesContaining(Pageable pageRequest, String tagName);
-
-    /**
-     * Saves message.
-     *
-     * @param message message
-     * @return saved message
-     */
-    Message save(Message message);
-
-    /**
-     * Returns message with specified id.
-     *
-     * @param id id
-     * @return message
-     */
-    Message findById(String id);
-
-    /**
-     * Deletes message with specified id.
-     *
-     * @param id id
-     */
-    void delete(String id);
 }

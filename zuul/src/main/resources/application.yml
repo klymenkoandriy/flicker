@@ -16,24 +16,18 @@ zuul:
       path: /uaa/**
       service-id: authorization
       sensitiveHeaders:
-#      url: http://authorization:18080/
-#      url: http://localhost:18080/
       url: http://@auth-service-host@:18080/
       strip-prefix: false
     message-service:
       path: /api/v1/messages/**
       service-id: message-service
       sensitiveHeaders:
-#      url: http://message-service:8080/
-#      url: http://localhost:8080/
       url: http://@message-service-host@:8080/
       strip-prefix: false
     user-service:
       path: /api/v1/users/**
       service-id: user-service
       sensitiveHeaders:
-#      url: http://user-service:8081/
-#      url: http://localhost:8081/
       url: http://@user-service-host@:8081/
       strip-prefix: false
 
@@ -41,8 +35,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://@eureka-service-host@:8761/eureka
-#      defaultZone: http://eureka:8761/eureka
-#      defaultZone: http://localhost:8761/eureka
 
 application:
   filter:

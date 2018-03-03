@@ -28,7 +28,7 @@ public final class MessageUtils {
         StringTokenizer tokenizer = new StringTokenizer(text);
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
-            if (token.startsWith(HASH_TAG)) {
+            if (token.startsWith(HASH_TAG) && token.length() > 1) {
                 tags.add(token.replace(HASH_TAG, ""));
             }
         }

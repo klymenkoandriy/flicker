@@ -153,7 +153,7 @@ public class MessageRestController {
     @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity deleteMessage(Principal principal,
             @ApiParam(value = "Message id to delete.", required = true) @RequestParam(value = "id",  required = true) String id) {
-        Message message = messageRepository.findById(id);
+        Message message = messageRepository.findOne(id);
 
         if (message == null) {
             throw new RequestException(HttpStatus.NOT_FOUND, MESSAGE_NOT_FOUND);

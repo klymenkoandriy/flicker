@@ -35,6 +35,7 @@ public class User {
     private String lastName;
 
     @Email
+    @Size(min = 3, max = 64)
     private String email;
 
     @Size(min = 3, max = 64)

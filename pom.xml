@@ -43,6 +43,9 @@
     <profiles>
         <profile>
             <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <auth-service-host>localhost</auth-service-host>
                 <eureka-service-host>localhost</eureka-service-host>
