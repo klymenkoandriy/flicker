@@ -7,7 +7,7 @@
   "host" : "localhost:8081",
   "basePath" : "/",
   "tags" : [ {
-    "name" : "User data operations",
+    "name" : "User data operations ",
     "description" : "RESTful API to interact with users data."
   }, {
     "name" : "User internal services"
@@ -37,7 +37,7 @@
         }
       },
       "post" : {
-        "tags" : [ "User data operations" ],
+        "tags" : [ "User data operations " ],
         "summary" : "Save User",
         "description" : "Saves new User.",
         "operationId" : "saveUser",
@@ -96,7 +96,7 @@
     },
     "/api/v1/users/my" : {
       "get" : {
-        "tags" : [ "User data operations" ],
+        "tags" : [ "User data operations " ],
         "summary" : "Get current user",
         "description" : "Returns User entity for current user.",
         "operationId" : "getCurrentUser",
@@ -113,7 +113,7 @@
         } ]
       },
       "put" : {
-        "tags" : [ "User data operations" ],
+        "tags" : [ "User data operations " ],
         "summary" : "Update current user",
         "description" : "Updates User data.",
         "operationId" : "updateUser",

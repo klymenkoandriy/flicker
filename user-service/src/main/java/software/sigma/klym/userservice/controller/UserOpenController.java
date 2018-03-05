@@ -25,7 +25,7 @@ import java.time.LocalDate;
  *
  * @author Andriy Klymenko
  */
-@Api(value = "User data operations", description = "RESTful API to interact with users data.")
+@Api(value = "User data operations ", description = "RESTful API to interact with users data.")
 @RestController
 @RequestMapping(value = "/api/v1/users")
 public class UserOpenController {

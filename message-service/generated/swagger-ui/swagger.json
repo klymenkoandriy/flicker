@@ -7,17 +7,17 @@
   "host" : "localhost:8080",
   "basePath" : "/",
   "tags" : [ {
-    "name" : "Messages data operations",
+    "name" : "Messages data operations ",
     "description" : "RESTful API to interact with messages resources."
   }, {
-    "name" : "Tags data operations",
+    "name" : "Tags data operations ",
     "description" : "RESTful API to interact with tags resources."
   } ],
   "schemes" : [ "http" ],
   "paths" : {
     "/api/v1/messages/items" : {
       "get" : {
-        "tags" : [ "Messages data operations" ],
+        "tags" : [ "Messages data operations " ],
         "summary" : "Get messages",
         "description" : "Get messages using parameters.",
         "operationId" : "getMessages",
@@ -57,7 +57,7 @@
         } ]
       },
       "post" : {
-        "tags" : [ "Messages data operations" ],
+        "tags" : [ "Messages data operations " ],
         "summary" : "Save message",
         "description" : "Saves message.",
         "operationId" : "saveMessage",
@@ -87,7 +87,7 @@
         } ]
       },
       "delete" : {
-        "tags" : [ "Messages data operations" ],
+        "tags" : [ "Messages data operations " ],
         "summary" : "Delete message",
         "description" : "Deletes message with specified id.",
         "operationId" : "deleteMessage",
@@ -125,7 +125,7 @@
     },
     "/api/v1/messages/tags" : {
       "get" : {
-        "tags" : [ "Tags data operations" ],
+        "tags" : [ "Tags data operations " ],
         "summary" : "Get most popular tags",
         "description" : "Returns the specified number of the most popular tags.",
         "operationId" : "getHottestTags",
