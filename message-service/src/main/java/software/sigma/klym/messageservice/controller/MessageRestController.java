@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -124,9 +125,8 @@ public class MessageRestController {
             notes = "Saves message.",
             authorizations = {@Authorization(value = "oauth2", scopes = { @AuthorizationScope(scope = "write", description = "write data")})})
     @ApiResponses(value = { @ApiResponse(code = 400, message = ResponseExceptionHandler.MESSAGE_VALIDATION_ERROR, response = ApiError.class)})
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<MessageDTO> saveMessage(Principal principal,
-            @ApiParam(value = "The text to save.", required = true) @RequestParam(value = "text",  required = true) String text) {
+    @RequestMapping(method = RequestMethod.POST, consumes = "text/plain")
+    public ResponseEntity<MessageDTO> saveMessage(Principal principal, @RequestBody String text) {
         Set<String> tagNames = MessageUtils.extractTags(text);
         tagService.addTags(tagNames);
         Message message = messageRepository.save(new Message(text, principal.getName(), LocalDateTime.now(), tagNames));

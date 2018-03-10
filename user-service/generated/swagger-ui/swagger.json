@@ -42,41 +42,12 @@
         "description" : "Saves new User.",
         "operationId" : "saveUser",
         "parameters" : [ {
-          "name" : "username",
-          "in" : "query",
-          "description" : "Username string used to login.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "firstName",
-          "in" : "query",
-          "description" : "First name.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "lastName",
-          "in" : "query",
-          "description" : "Last name.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "email",
-          "in" : "query",
-          "description" : "Email address.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "description" : "Password string used to login.",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "birthDate",
-          "in" : "query",
-          "description" : "Date of birthday.",
-          "required" : true,
-          "type" : "string"
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -86,7 +57,7 @@
             }
           },
           "422" : {
-            "description" : "User with the specified name already exists",
+            "description" : "User with the specified username or id already exists",
             "schema" : {
               "$ref" : "#/definitions/ApiError"
             }

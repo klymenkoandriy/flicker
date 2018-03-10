@@ -24,7 +24,7 @@ public abstract class BaseMessage {
     @Id
     private String id;
 
-    @Size(min = 3, max = 1024)
+    @Size(min = 3, max = 280)
     private String text;
 
     @Size(min = 3, max = 64)

@@ -23,7 +23,7 @@ public class MessageDTOTest {
 
     private static final String FIELDS_SIZE_ERR_MESSAGE = "size must be between 3 and 64";
 
-    private static final String TEXT_SIZE_ERR_MESSAGE = "size must be between 3 and 1024";
+    private static final String TEXT_SIZE_ERR_MESSAGE = "size must be between 3 and 280";
 
     private MessageDTO message;
 

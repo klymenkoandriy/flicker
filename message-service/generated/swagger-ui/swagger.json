@@ -61,12 +61,14 @@
         "summary" : "Save message",
         "description" : "Saves message.",
         "operationId" : "saveMessage",
+        "consumes" : [ "text/plain" ],
         "parameters" : [ {
-          "name" : "text",
-          "in" : "query",
-          "description" : "The text to save.",
-          "required" : true,
-          "type" : "string"
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -198,7 +200,7 @@
         "text" : {
           "type" : "string",
           "minLength" : 3,
-          "maxLength" : 1024
+          "maxLength" : 280
         },
         "username" : {
           "type" : "string",
