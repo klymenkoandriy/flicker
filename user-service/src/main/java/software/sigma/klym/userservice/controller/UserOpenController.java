@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,6 +56,7 @@ public class UserOpenController {
      * @param user user
      * @return saved user
      */
+    @CrossOrigin("*")
     @Validated
     @ApiOperation(value = "Save User", httpMethod = "POST", response = User.class, notes = "Saves new User.")
     @ApiResponses(value = { @ApiResponse(code = 422, message = INFO_ALREADY_EXISTS, response = ApiError.class) })
