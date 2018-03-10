@@ -24,7 +24,7 @@ import software.sigma.klym.userservice.model.User;
  *
  * @author Andriy Klymenko
  */
-@Api(value = "User data operations ", description = "RESTful API to interact with users data.")
+@Api(value = "User data operations", description = "RESTful API to interact with users data.")
 @RestController
 @RequestMapping(value = "/api/v1/users")
 public class UserOpenController {

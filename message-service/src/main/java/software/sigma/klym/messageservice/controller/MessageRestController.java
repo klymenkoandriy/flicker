@@ -44,7 +44,7 @@ import java.util.Set;
  *
  * @author Andriy Klymenko
  */
-@Api(value = "Messages data operations ", description = "RESTful API to interact with messages resources.")
+@Api(value = "Messages data operations", description = "RESTful API to interact with messages resources.")
 @RestController
 @RequestMapping(value = "/api/v1/messages/items")
 public class MessageRestController {

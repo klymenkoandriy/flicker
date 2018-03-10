@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  *
  * @author Andriy Klymenko
  */
-@Api(value = "Tags data operations ", description = "RESTful API to interact with tags resources.")
+@Api(value = "Tags data operations", description = "RESTful API to interact with tags resources.")
 @RestController
 @RequestMapping(value = "/api/v1/messages/tags")
 public class TagRestController {
