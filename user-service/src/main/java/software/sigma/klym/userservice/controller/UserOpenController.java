@@ -61,6 +61,10 @@ public class UserOpenController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity saveUser(@RequestBody User user) {
 
+        if (user.getId() != null && user.getId().equals("")) {
+            user.setId(null);
+        }
+
         if (userRepository.findByUsername(user.getUsername()) != null
                 || (user.getId() != null && userRepository.findOne(user.getId()) != null)) {
             throw new RequestException(HttpStatus.UNPROCESSABLE_ENTITY, INFO_ALREADY_EXISTS);
